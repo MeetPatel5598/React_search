@@ -54,17 +54,17 @@ export default class Profile extends Component {
       <div className="card-flex">
         {temp.map((data, index) => {
           return (
-            <div className="card">
-              <div key={index}>
-                <img src={data.imageUrl} alt="Girl in a jacket" />
-                <h3>
-                  {data.firstName} {data.lastName}
-                </h3>
-                <p>Email id : {data.email}</p>
-                <p>Company : {data.company}</p>
-                <p>Skill : {data.skill}</p>
-                <p>Average : {data.average}</p>
-              </div>
+            <div className="card" key={index}>
+              <img src={data.imageUrl} alt="Girl in a jacket" />
+              <p>
+                {data.firstName.toUpperCase()} {data.lastName.toUpperCase()}
+              </p>
+              <ul>
+                <li>Email id : {data.email}</li>
+                <li>Company : {data.company}</li>
+                <li>Skill : {data.skill}</li>
+                <li>Average : {data.average} %</li>
+              </ul>
             </div>
           );
         })}
