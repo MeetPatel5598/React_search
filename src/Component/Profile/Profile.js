@@ -7,6 +7,9 @@ export default class Profile extends Component {
     this.state = {
       error: null,
       temp: [],
+      searchData: [],
+      searchTerm: "",
+      isSearched: false,
     };
   }
 
@@ -24,13 +27,14 @@ export default class Profile extends Component {
                 const averageGrades = arrAvg(item.grades).toFixed(2);
                 let obj = {
                   id: index,
-                  firstName: item.firstName,
-                  lastName: item.lastName,
+                  fullName: item.firstName + " " + item.lastName,
                   imageUrl: item.pic,
                   email: item.email,
+                  grades: item.grades,
                   average: averageGrades,
                   company: item.company,
                   skill: item.skill,
+                  showMessage: false,
                 };
                 newData.push({ ...obj });
               });
@@ -38,6 +42,7 @@ export default class Profile extends Component {
           }
           this.setState({
             temp: newData,
+            searchData: newData,
           });
         },
         (error) => {
@@ -48,23 +53,71 @@ export default class Profile extends Component {
       );
   }
 
+  handleChange = (event) => {
+    const { searchData } = this.state;
+    const value = event.target.value;
+    this.setState({ searchTerm: value });
+    const results = searchData.filter((temp) => {
+      return temp.fullName.toLowerCase().includes(value.toLowerCase());
+    });
+    this.setState({ temp: results });
+  };
+
+  onButtonClickHandler = (event) => {
+    //this.setState({ showMessage: !this.state.showMessage });
+    this.setState((prevState) => ({
+      ...prevState,
+      temp: {
+        ...prevState.temp,
+        showMessage: true,
+      },
+    }));
+  };
+
   render() {
-    const { temp } = this.state;
+    const { temp, searchTerm } = this.state;
+
     return (
       <div className="card-flex">
+        <input
+          className="w3-input"
+          type="text"
+          placeholder="Search By Name"
+          value={searchTerm}
+          onChange={this.handleChange}
+        />
+
         {temp.map((data, index) => {
           return (
             <div className="card" key={index}>
-              <img src={data.imageUrl} alt="Girl in a jacket" />
-              <p>
-                {data.firstName.toUpperCase()} {data.lastName.toUpperCase()}
-              </p>
-              <ul>
+              <img src={data.imageUrl} alt="Image1" />
+              <p>{data.fullName.toUpperCase()}</p>
+              <button
+                className="btn-text"
+                onClick={this.onButtonClickHandler}
+                value={index}
+              >
+                +
+              </button>
+
+              <ul className="first-ul">
                 <li>Email id : {data.email}</li>
                 <li>Company : {data.company}</li>
                 <li>Skill : {data.skill}</li>
                 <li>Average : {data.average} %</li>
               </ul>
+              {data.showMessage && (
+                <ul className="second-ul">
+                  {data.grades.map((item, index) => {
+                    return (
+                      <li key={index}>
+                        {" "}
+                        Test {index + 1} : {item}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </div>
           );
         })}
