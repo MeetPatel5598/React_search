@@ -9,7 +9,6 @@ export default class Profile extends Component {
       temp: [],
       searchData: [],
       searchTerm: "",
-      isSearched: false,
     };
   }
 
@@ -64,18 +63,13 @@ export default class Profile extends Component {
   };
 
   onButtonClickHandler = (event) => {
-    //this.setState({ showMessage: !this.state.showMessage });
-    this.setState((prevState) => ({
-      ...prevState,
-      temp: {
-        ...prevState.temp,
-        showMessage: true,
-      },
-    }));
+    const value = event.target.id;
+    const { temp } = this.state;
+    console.log(value);
   };
 
   render() {
-    const { temp, searchTerm } = this.state;
+    const { temp, searchTerm, showMessage } = this.state;
 
     return (
       <div className="card-flex">
@@ -94,8 +88,9 @@ export default class Profile extends Component {
               <p>{data.fullName.toUpperCase()}</p>
               <button
                 className="btn-text"
+                value={showMessage}
+                id={index}
                 onClick={this.onButtonClickHandler}
-                value={index}
               >
                 +
               </button>
@@ -106,7 +101,7 @@ export default class Profile extends Component {
                 <li>Skill : {data.skill}</li>
                 <li>Average : {data.average} %</li>
               </ul>
-              {data.showMessage && (
+              {showMessage && (
                 <ul className="second-ul">
                   {data.grades.map((item, index) => {
                     return (
@@ -118,6 +113,12 @@ export default class Profile extends Component {
                   })}
                 </ul>
               )}
+              <input
+                className="input-tag"
+                type="text"
+                placeholder="Tag"
+                value={searchTerm}
+              />
             </div>
           );
         })}
