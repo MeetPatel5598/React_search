@@ -19,29 +19,33 @@ img {
   width: 150px;
   height: 150px;
   margin-left: 20px;
+  margin-top: 10px;
   border-radius: 50%;
   border: 0.2px solid #cccccc;
 }
 
 p {
   font-family: "Raleway", sans-serif;
-  font-size: 50px;
-  margin-right: 20%;
+  font-size: 40px;
+  float: left;
+  margin-left: 5%;
   margin-top: 2%;
 }
 
 .first-ul {
   display: inline-block;
   list-style-type: none;
-  margin-right: 40%;
-  margin-top: -5%;
+  margin-right: 50%;
+  margin-top: -4%;
+  text-align: left;
 }
 
 .second-ul {
   display: inline-block;
   list-style-type: none;
-  margin-right: 40%;
-  margin-top: 2%;
+  margin-right: 45%;
+  margin-top: 0;
+  text-align: left;
 }
 
 input {
@@ -57,15 +61,21 @@ input {
   width: 95%;
 }
 
-.btn-text {
-  float: right;
-  margin-top: -50%;
-  font-size: 50px;
-}
-
 .input-tag {
   width: 50px;
   float: left;
   margin-top: 20px;
   margin-left: 20px;
+}
+
+.accordion {
+  float: right;
+  margin-top: 2%;
+  font-size: 50px;
+  padding: 18px;
+  border: none;
+  color: #a9a9a9;
+  padding: 0;
+  border: none;
+  background: none;
 }

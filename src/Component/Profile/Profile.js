@@ -34,6 +34,8 @@ export default class Profile extends Component {
                   company: item.company,
                   skill: item.skill,
                   showMessage: false,
+                  button: "+",
+                  tag: [],
                 };
                 newData.push({ ...obj });
               });
@@ -62,10 +64,31 @@ export default class Profile extends Component {
     this.setState({ temp: results });
   };
 
-  onButtonClickHandler = (event) => {
-    const value = event.target.id;
+  onButtonClickHandler = (index) => {
+    const value = index;
     const { temp } = this.state;
-    console.log(value);
+    if (temp[value].showMessage) {
+      temp[value].button = "+";
+      temp[value].showMessage = false;
+    } else {
+      temp[value].button = "-";
+      temp[value].showMessage = true;
+    }
+    this.setState({ temp: temp });
+  };
+
+  inputKeyDown = (e) => {
+    const val = e.target.value;
+    if (e.key === "Enter" && val) {
+      this.setState((prevState) => {
+        return {
+          temp: {
+            ...prevState.temp,
+            tag: this.value,
+          },
+        };
+      });
+    }
   };
 
   render() {
@@ -87,12 +110,12 @@ export default class Profile extends Component {
               <img src={data.imageUrl} alt="Image1" />
               <p>{data.fullName.toUpperCase()}</p>
               <button
-                className="btn-text"
+                className="accordion"
                 value={showMessage}
                 id={index}
-                onClick={this.onButtonClickHandler}
+                onClick={(data) => this.onButtonClickHandler(index)}
               >
-                +
+                {data.button}
               </button>
 
               <ul className="first-ul">
@@ -101,7 +124,7 @@ export default class Profile extends Component {
                 <li>Skill : {data.skill}</li>
                 <li>Average : {data.average} %</li>
               </ul>
-              {showMessage && (
+              {data.showMessage && (
                 <ul className="second-ul">
                   {data.grades.map((item, index) => {
                     return (
@@ -113,12 +136,6 @@ export default class Profile extends Component {
                   })}
                 </ul>
               )}
-              <input
-                className="input-tag"
-                type="text"
-                placeholder="Tag"
-                value={searchTerm}
-              />
             </div>
           );
         })}
