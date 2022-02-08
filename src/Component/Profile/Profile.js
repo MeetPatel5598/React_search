@@ -64,8 +64,9 @@ export default class Profile extends Component {
     this.setState({ temp: results });
   };
 
-  onButtonClickHandler = (index) => {
-    const value = index;
+  onButtonClickHandler = (event) => {
+    const value = event.target.id;
+    console.log(value);
     const { temp } = this.state;
     if (temp[value].showMessage) {
       temp[value].button = "+";
@@ -92,7 +93,7 @@ export default class Profile extends Component {
   };
 
   render() {
-    const { temp, searchTerm, showMessage } = this.state;
+    const { temp, searchTerm } = this.state;
 
     return (
       <div className="card-flex">
@@ -111,9 +112,9 @@ export default class Profile extends Component {
               <p>{data.fullName.toUpperCase()}</p>
               <button
                 className="accordion"
-                value={showMessage}
+                value={data.showMessage}
                 id={index}
-                onClick={(data) => this.onButtonClickHandler(index)}
+                onClick={this.onButtonClickHandler}
               >
                 {data.button}
               </button>
@@ -136,6 +137,7 @@ export default class Profile extends Component {
                   })}
                 </ul>
               )}
+              <input />
             </div>
           );
         })}
