@@ -61,11 +61,8 @@ input {
   width: 95%;
 }
 
-.input-tag {
-  width: 50px;
-  float: left;
-  margin-top: 20px;
-  margin-left: 20px;
+.w3-input {
+  margin-bottom: 20px;
 }
 
 .accordion {
@@ -78,4 +75,21 @@ input {
   padding: 0;
   border: none;
   background: none;
+}
+
+.tag-btn {
+  width: 15%;
+  margin-bottom: 20px;
+  margin-right: 35%;
+  margin-top: 20px;
+}
+.a {
+  float: inline-end;
+  width: auto;
+  height: auto;
+  border-radius: 5px;
+  padding: 2px;
+  margin: 2px;
+  border: 1px solid #cccccc;
+  background-color: #cccccc;
 }

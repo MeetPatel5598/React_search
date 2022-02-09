@@ -9,6 +9,7 @@ export default class Profile extends Component {
       temp: [],
       searchData: [],
       searchTerm: "",
+      searchTag: "",
     };
   }
 
@@ -36,6 +37,7 @@ export default class Profile extends Component {
                   showMessage: false,
                   button: "+",
                   tag: [],
+                  addTag: "",
                 };
                 newData.push({ ...obj });
               });
@@ -64,9 +66,40 @@ export default class Profile extends Component {
     this.setState({ temp: results });
   };
 
+  handleChangeTag = (event) => {
+    const { searchData } = this.state;
+    const value = event.target.value;
+    this.setState({ searchTag: value });
+    console.log(searchData);
+
+    const results = searchData.filter((temp) => {
+      return temp.tag.includes(value);
+    });
+    console.log(results);
+    this.setState({ temp: results });
+  };
+
+  addTagHandler = (event) => {
+    const value = event.target.value;
+    const id = event.target.id;
+    const { temp } = this.state;
+    temp[id].addTag = value;
+    this.setState({ temp: temp });
+    if (event.key) {
+      temp[id].tag.push(value);
+      temp[id].addTag = "";
+      this.setState({ searchData: temp });
+    }
+  };
+
+  keyPress = (event) => {
+    if (event.key === "Enter") {
+      this.addTagHandler(event);
+    }
+  };
+
   onButtonClickHandler = (event) => {
     const value = event.target.id;
-    console.log(value);
     const { temp } = this.state;
     if (temp[value].showMessage) {
       temp[value].button = "+";
@@ -78,22 +111,8 @@ export default class Profile extends Component {
     this.setState({ temp: temp });
   };
 
-  inputKeyDown = (e) => {
-    const val = e.target.value;
-    if (e.key === "Enter" && val) {
-      this.setState((prevState) => {
-        return {
-          temp: {
-            ...prevState.temp,
-            tag: this.value,
-          },
-        };
-      });
-    }
-  };
-
   render() {
-    const { temp, searchTerm } = this.state;
+    const { temp, searchTerm, searchTag } = this.state;
 
     return (
       <div className="card-flex">
@@ -103,6 +122,13 @@ export default class Profile extends Component {
           placeholder="Search By Name"
           value={searchTerm}
           onChange={this.handleChange}
+        />
+        <input
+          className="w3-input"
+          type="text"
+          placeholder="Search By Tag"
+          value={searchTag}
+          onChange={this.handleChangeTag}
         />
 
         {temp.map((data, index) => {
@@ -137,7 +163,23 @@ export default class Profile extends Component {
                   })}
                 </ul>
               )}
-              <input />
+              {data.tag.map((item, index) => {
+                return (
+                  <span className="a" key={index}>
+                    {item}
+                  </span>
+                );
+              })}
+
+              <input
+                className="tag-btn"
+                type="text"
+                placeholder="Add a tag"
+                id={index}
+                value={data.addTag}
+                onKeyDown={(event) => this.keyPress(event)}
+                onChange={this.addTagHandler}
+              />
             </div>
           );
         })}
